@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JHSE Vocab</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="wrap header">
+    <div class="titleRow">
+      <h1>JHSE Vocab</h1>
+      <div class="rankChip" id="rankChip">RANK</div>
+    </div>
+
+    <section class="card rankPanel">
+      <div class="rankTop">
+        <div>
+          <div class="muted">現在ランク</div>
+          <div class="rankName" id="rankName">-</div>
+        </div>
+        <div class="rankRight">
+          <div class="muted">次のランクまで</div>
+          <div class="rankRemain" id="rankRemain">-</div>
+        </div>
+      </div>
+
+      <div class="bar" aria-label="rank progress">
+        <div class="barFill" id="barFill" style="width:0%"></div>
+      </div>
+
+      <details class="rankDetails" id="rankDetails">
+        <summary>ランク一覧</summary>
+        <div class="rankList" id="rankList"></div>
+      </details>
+    </section>
+  </header>
+
+  <main class="wrap">
+    <section class="card" id="setup">
+      <div class="setupGrid">
+        <div class="field">
+          <label>ユーザ名</label>
+          <div class="userRow">
+            <input id="userName" class="input" placeholder="例：ryosuke" maxlength="20" />
+            <button id="saveUserBtn" class="btn">保存</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>難易度</label>
+          <select id="level"></select>
+        </div>
+
+        <div class="field">
+          <label>出題形式</label>
+          <select id="quizType">
+            <option value="mc">4択（10問）</option>
+            <option value="typing">打ち込み（10問）</option>
+            <option value="mix">ミックス（10問：形5 + 系5）</option>
+          </select>
+          <div class="muted" style="margin-top:6px;">ミックスは「動詞の形当て」と「系列（日→英）」を4択で出題します。</div>
+        </div>
+
+        <div class="field">
+          <label>出題方向（4択・打ち込み）</label>
+          <select id="direction">
+            <option value="en_to_ja">英語 → 日本語</option>
+            <option value="ja_to_en">日本語 → 英語</option>
+          </select>
+          <div class="muted" style="margin-top:6px;" id="directionHint">ミックスでは、形問題は英語表記の形当て、系列問題は（日→英）固定です。</div>
+        </div>
+      </div>
+
+      <div class="btnRow">
+        <button id="startBtn" class="btn primary">通常テスト（10問）</button>
+        <button id="reviewBtn" class="btn">復習（ミスのみ）</button>
+        <button id="resetBtn" class="btn danger">記録リセット</button>
+      </div>
+
+      <div class="statsGrid">
+        <div class="statCard">
+          <div class="statLabel">累計 正解数</div>
+          <div class="statValue" id="totalOk">0</div>
+        </div>
+        <div class="statCard">
+          <div class="statLabel">累計 回答数</div>
+          <div class="statValue" id="totalAns">0</div>
+        </div>
+        <div class="statCard">
+          <div class="statLabel">正答率</div>
+          <div class="statValue" id="acc">0%</div>
+        </div>
+        <div class="statCard">
+          <div class="statLabel">ミス単語数</div>
+          <div class="statValue" id="missCnt">0</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="quiz">
+      <div class="topline">
+        <div id="progress">1 / 10</div>
+        <div class="pill" id="qTypePill">4択</div>
+        <button id="quitBtn" class="btn small">終了</button>
+      </div>
+
+      <h2 id="qText">question</h2>
+
+      <!-- 4択 -->
+      <div id="choices" class="choices"></div>
+
+      <!-- 入力（2問） -->
+      <div id="typing" class="typing hidden" aria-hidden="true">
+        <div class="typeMeta">
+          <div class="muted" id="typeMeaning">意味：</div>
+          <div class="typeExample" id="typeExample">例文：</div>
+        </div>
+
+        <div class="typeRow">
+          <input
+            id="typeInput"
+            class="input"
+            placeholder="英語で入力"
+            inputmode="text"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="none"
+            spellcheck="false"
+          />
+          <button id="checkBtn" class="btn primary">提出</button>
+        </div>
+      </div>
+
+      <div id="feedback" class="feedback"></div>
+
+      <div class="btnRow">
+        <button id="nextBtn" class="btn primary" disabled>次へ</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="result">
+      <h2>結果</h2>
+      <p id="resultText"></p>
+
+      <div class="btnRow">
+        <button id="backBtn" class="btn primary">トップへ</button>
+        <button id="retryMissBtn" class="btn">復習（ミスのみ）</button>
+      </div>
+
+      <details class="missListWrap">
+        <summary>ミスした単語を見る</summary>
+        <ul id="missList" class="missList"></ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <small>© JHSE Vocab</small>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
